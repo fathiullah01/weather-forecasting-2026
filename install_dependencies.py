@@ -1,13 +1,9 @@
 # =============================================================
 # install_dependencies.py
 # Installs all Python libraries required for this project.
-# Run this once before running anything else.
-#
-# HOW TO RUN:
-#   python install_dependencies.py
 # =============================================================
 
-import subprocess, sys, importlib, os
+import subprocess, sys
 
 print("\n" + "="*65)
 print("  PROJECT DEPENDENCY INSTALLER")
@@ -15,105 +11,86 @@ print("  Kwara State University, Malete")
 print("  Faculty of ICT - Department of Computer Science")
 print("="*65 + "\n")
 
-# -- Required packages -----------------------------------------
-# Format: (pip_package_name, import_name, version, description)
-REQUIRED = [
-    ("pandas",           "pandas",        ">=1.3.0",  "Data loading and manipulation"),
-    ("numpy",            "numpy",         ">=1.21.0", "Numerical computation"),
-    ("matplotlib",       "matplotlib",    ">=3.4.0",  "Plotting and figures"),
-    ("seaborn",          "seaborn",       ">=0.11.0", "Statistical visualisation"),
-    ("scikit-learn",     "sklearn",       ">=0.24.0", "Random Forest, PSO evaluation, metrics"),
-    ("pyswarms",         "pyswarms",      ">=1.3.0",  "Particle Swarm Optimisation"),
-    ("statsmodels",      "statsmodels",   ">=0.12.0", "ARIMA baseline model"),
-    ("joblib",           "joblib",        ">=1.0.0",  "Model saving and loading"),
-    ("requests",         "requests",      ">=2.25.0", "NASA POWER API download"),
-    ("tqdm",             "tqdm",          ">=4.60.0", "Download progress bars"),
+# -- Step 1: Check pip -----------------------------------------
+print("[SETUP] Checking pip ...")
+result = subprocess.run(
+    [sys.executable, "-m", "pip", "--version"],
+    capture_output=True, text=True)
+
+if result.returncode != 0:
+    print("[SETUP] pip not found. Installing pip ...")
+    bootstrap = subprocess.run(
+        [sys.executable, "-m", "ensurepip", "--upgrade"],
+        capture_output=False)
+    if bootstrap.returncode != 0:
+        print("[ERROR] Could not install pip.")
+        print("  Visit: https://pip.pypa.io/en/stable/installation/")
+        sys.exit(1)
+    print("[OK] pip installed.\n")
+else:
+    print(f"[OK] {result.stdout.strip()}\n")
+
+# -- Step 2: Upgrade pip first ---------------------------------
+print("[SETUP] Upgrading pip to latest version ...")
+subprocess.run(
+    [sys.executable, "-m", "pip", "install",
+     "--upgrade", "pip",
+     "--trusted-host", "pypi.org",
+     "--trusted-host", "files.pythonhosted.org"],
+    capture_output=False)
+print()
+
+# -- Step 3: Install packages ----------------------------------
+print("[INSTALL] Installing required packages ...")
+print("          (this may take a few minutes)\n")
+
+PACKAGES = [
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "seaborn",
+    "scikit-learn",
+    "pyswarms",
+    "statsmodels",
+    "joblib",
+    "requests",
+    "tqdm",
 ]
 
-# -- Check which are already installed -------------------------
-print("[CHECK] Scanning installed packages ...\n")
-to_install   = []
-already_have = []
+result = subprocess.run(
+    [sys.executable, "-m", "pip", "install"] + PACKAGES + [
+        "--trusted-host", "pypi.org",
+        "--trusted-host", "files.pythonhosted.org",
+        "--prefer-binary",   # use pre-built wheels, avoids build errors
+        "--upgrade",
+    ],
+    capture_output=False
+)
 
-for pip_name, import_name, version, description in REQUIRED:
-    try:
-        importlib.import_module(import_name)
-        already_have.append((pip_name, description))
-        print(f"  [OK]     {pip_name:<20} already installed")
-    except ImportError:
-        to_install.append((pip_name, version, description))
-        print(f"  [MISSING]{pip_name:<20} needs installing")
+if result.returncode != 0:
+    print("\n[RETRY] Standard install failed.")
+    print("[RETRY] Trying with --only-binary and pre-release fallback ...\n")
 
-print()
+    result2 = subprocess.run(
+        [sys.executable, "-m", "pip", "install"] + PACKAGES + [
+            "--trusted-host", "pypi.org",
+            "--trusted-host", "files.pythonhosted.org",
+            "--prefer-binary",
+            "--pre",           # allow pre-release builds (helps with Python 3.14)
+            "--upgrade",
+        ],
+        capture_output=False
+    )
 
-# -- Install missing packages ----------------------------------
-if not to_install:
-    print("[OK] All packages already installed. Nothing to do.\n")
-else:
-    print(f"[INSTALL] Installing {len(to_install)} missing package(s) ...\n")
-    failed = []
-
-    for pip_name, version, description in to_install:
-        package_spec = f"{pip_name}{version}"
-        print(f"  Installing: {pip_name}  ({description})")
-        print(f"  Command  : pip install \"{package_spec}\"")
-
-        result = subprocess.run(
-            [sys.executable, "-m", "pip", "install",
-             package_spec, "--upgrade", "--quiet"],
-            capture_output=False
-        )
-
-        if result.returncode == 0:
-            print(f"  [OK] {pip_name} installed successfully.\n")
-        else:
-            # Try without version pin as fallback
-            print(f"  [RETRY] Trying without version pin ...")
-            result2 = subprocess.run(
-                [sys.executable, "-m", "pip", "install",
-                 pip_name, "--upgrade", "--quiet"],
-                capture_output=False
-            )
-            if result2.returncode == 0:
-                print(f"  [OK] {pip_name} installed (no version pin).\n")
-            else:
-                print(f"  [FAIL] Could not install {pip_name}.\n")
-                failed.append(pip_name)
-
-    # -- Final report ------------------------------------------
-    print("="*65)
-    if failed:
-        print(f"  [WARNING] {len(failed)} package(s) failed to install:")
-        for f in failed:
-            print(f"    - {f}")
-        print("\n  Try installing manually:")
-        print(f"    pip install {' '.join(failed)}")
-        print("="*65 + "\n")
+    if result2.returncode != 0:
+        print("\n[ERROR] Installation failed.")
+        print("  Your Python version may be too new for some packages.")
+        print(f"  Current Python: {sys.version}")
+        print("  Recommended  : Python 3.10, 3.11, or 3.12")
+        print("  Download from: https://www.python.org/downloads/")
         sys.exit(1)
-    else:
-        print(f"  [OK] All {len(to_install)} package(s) installed successfully.")
-        print("="*65 + "\n")
 
-# -- Final verification ----------------------------------------
-print("[VERIFY] Verifying all imports ...\n")
-all_ok  = True
-for pip_name, import_name, version, description in REQUIRED:
-    try:
-        mod = importlib.import_module(import_name)
-        ver = getattr(mod, "__version__", "unknown")
-        print(f"  [OK] {import_name:<20} version {ver}")
-    except ImportError:
-        print(f"  [FAIL] {import_name:<20} COULD NOT BE IMPORTED")
-        all_ok = False
-
-print()
-if all_ok:
-    print("="*65)
-    print("  ALL DEPENDENCIES VERIFIED. Project is ready to run.")
-    print("  Next step: python main.py")
-    print("="*65 + "\n")
-else:
-    print("="*65)
-    print("  [ERROR] Some imports failed. See above for details.")
-    print("="*65 + "\n")
-    sys.exit(1)
+print("\n" + "="*65)
+print("  ALL DEPENDENCIES INSTALLED SUCCESSFULLY.")
+print("  Next step: python main.py")
+print("="*65 + "\n")
