@@ -1,5 +1,5 @@
 # =============================================================
-# download_weather_data.py
+# download_country_weather_data.py
 # Downloads historical weather data for all states defined
 # in config.py from the NASA POWER API.
 #
@@ -16,7 +16,7 @@
 #       `-- ...
 #
 # HOW TO RUN:
-#   python download_weather_data.py
+#   python download_country_weather_data.py
 # =============================================================
 
 import os, sys, time

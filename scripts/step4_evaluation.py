@@ -89,10 +89,10 @@ print(res_df.to_string(index=False))
 lit_df = pd.DataFrame(LITERATURE_REFS)
 # Fill in this study's results
 mask_this = lit_df["Author"] == "This Study"
-lit_df.loc[mask_this, "MAE"]  = round(results[0]["MAE"],  4)
-lit_df.loc[mask_this, "RMSE"] = round(results[0]["RMSE"], 4)
-lit_df.loc[mask_this, "R2"]   = round(results[0]["R2"],   4)
-lit_df.loc[mask_this, "MSE"]  = round(results[0]["MSE"],  4)
+lit_df.loc[mask_this, "MAE"]  = str(round(results[0]["MAE"],  4))
+lit_df.loc[mask_this, "RMSE"] = str(round(results[0]["RMSE"], 4))
+lit_df.loc[mask_this, "R2"]   = str(round(results[0]["R2"],   4))
+lit_df.loc[mask_this, "MSE"]  = str(round(results[0]["MSE"],  4))
 lit_df.loc[mask_this, "MAPE"] = str(round(results[0]["MAPE_%"],2)) + "%"
 lit_df.to_csv(os.path.join(TABLE_DIR,"table8_literature_comparison.csv"), index=False)
 print("[TABLE] table8_literature_comparison.csv saved")

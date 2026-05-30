@@ -1,7 +1,7 @@
 
 # =============================================================
 # run_all_scripts.py  -  Master Runner
-# Kwara State University, Malete
+# Kwara State University, Nigeria
 # Faculty of ICT - Department of Computer Science
 #
 # HOW TO RUN:
@@ -18,7 +18,7 @@ CLEAN_DIRS = ["figures", "tables", "results", "models"]
 
 print("\n" + "="*65)
 print("  WEATHER FORECASTING - PSO + RANDOM FOREST")
-print("  Kwara State University, Malete")
+print("  Kwara State University, Nigeria")
 print("  Faculty of ICT - Department of Computer Science")
 print("="*65)
 
@@ -40,9 +40,9 @@ cfg  = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(cfg)
 
 if not os.path.exists(cfg.DATASET_FILE):
-    print("[ERROR] Nigeria weather dataset not found.")
+    print("[ERROR] Country weather dataset not found.")
     print(f"  Expected: {cfg.DATASET_FILE}")
-    print("  Please run: python download_nigeria_weather.py first.")
+    print("  Please run: python download_country_weather_data.py first.")
     print("  Then re-run: python run_all_scripts.py")
     sys.exit(1)
 else:
@@ -54,7 +54,7 @@ STEPS = [
     ("step2_pso_feature_selection.py","STEP 2 - PSO Feature Selection"),
     ("step3_pso_hp_tuning_train.py","STEP 3 - PSO HP Tuning + RF Training"),
     ("step4_evaluation.py",         "STEP 4 - Model Evaluation & Comparison"),
-    ("step5_nigeria_forecast.py",   "STEP 5 - Nigeria State Forecasting Dashboard"),
+    ("step5_country_forecast.py",   "STEP 5 - Country State Forecasting Dashboard"),
     ("step6_future_forecast.py",    "STEP 6 - Future Weather Forecast Figures"),
 ]
 

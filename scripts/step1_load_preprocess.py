@@ -1,6 +1,6 @@
 # =============================================================
 # STEP 1: DATA LOADING & PREPROCESSING
-# Loads Nigeria NASA-POWER weather data for all 37 states
+# Loads Country(Nigeria) NASA-POWER weather data for all 37 states
 # =============================================================
 
 import pandas as pd
@@ -17,13 +17,13 @@ for d in [FIG_DIR, TABLE_DIR, RESULT_DIR, MODEL_DIR]:
     os.makedirs(d, exist_ok=True)
 
 print("=" * 60)
-print("  STEP 1: Loading and Preprocessing Nigeria Weather Data")
+print("  STEP 1: Loading and Preprocessing Country Weather Data")
 print("=" * 60)
 
 # -- Load dataset -----------------------------------------------
 if not os.path.exists(DATASET_FILE):
     print(f"\n[ERROR] Dataset not found: {DATASET_FILE}")
-    print("  Please run: python download_nigeria_weather.py first.")
+    print("  Please run: python download_country_weather_data.py first.")
     sys.exit(1)
 
 df_raw = pd.read_csv(DATASET_FILE, index_col=0, parse_dates=True)

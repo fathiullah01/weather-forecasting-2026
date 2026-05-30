@@ -1,6 +1,6 @@
 # Weather Forecasting Using PSO Feature Selection and Random Forest
 
-**Kwara State University, Malete**
+**Kwara State University, Nigeria**
 **Faculty of Information and Communication Technology**
 **Department of Computer Science**
 
@@ -8,9 +8,9 @@
 
 ## Project Overview
 
-This project implements a weather forecasting system that combines **Particle Swarm Optimisation (PSO)** for feature selection and hyperparameter tuning with a **Random Forest** regression model to predict next-day precipitation. The system is applied to historical meteorological data for all 36 Nigerian states and the Federal Capital Territory (FCT), downloaded from NASA's POWER API (2000–2025).
+This project implements a weather forecasting system that combines **Particle Swarm Optimisation (PSO)** for feature selection and hyperparameter tuning with a **Random Forest** regression model to predict next-day precipitation. The system is applied to historical meteorological data for all country states and the Federal Capital Territory (FCT), downloaded from NASA's POWER API (2000–2025).
 
-The project produces **24 figures** and **11 tables** covering data analysis, model training, evaluation, comparison with baseline models (ARIMA and plain Random Forest), and 14-day future forecasts for every Nigerian state.
+The project produces **24 figures** and **11 tables** covering data analysis, model training, evaluation, comparison with baseline models (ARIMA and plain Random Forest), and 14-day future forecasts for every Country state.
 
 ---
 
@@ -18,7 +18,7 @@ The project produces **24 figures** and **11 tables** covering data analysis, mo
 
 | Version | Date       | Author         | Changes |
 |---------|------------|----------------|---------|
-| 1.0.0   | 2024-01-01 | Project Team   | Initial release — Nigeria dataset, PSO-RF pipeline |
+| 1.0.0   | 2024-01-01 | Project Team   | Initial release — Country dataset, PSO-RF pipeline |
 | 1.1.0   | 2024-03-01 | Project Team   | Added step6 future forecast figures (fig21–fig24) |
 | 1.2.0   | 2024-05-01 | Project Team   | Restructured config.py — all variables in one place |
 | 1.3.0   | 2025-01-01 | Project Team   | Added install_dependencies.py, extended to 2025 data |
@@ -37,7 +37,7 @@ python main.py
 
 `main.py` handles everything automatically:
 1. Installs all required Python libraries
-2. Downloads Nigeria weather data from NASA POWER (skipped if already exists)
+2. Downloads Country weather data from NASA POWER (skipped if already exists)
 3. Runs the full 6-step pipeline
 
 ---
@@ -46,7 +46,7 @@ python main.py
 
 - Python 3.8 or higher
 - Internet connection (for first-time data download)
-- ~500 MB disk space (for full Nigeria dataset)
+- ~500 MB disk space (for full Country dataset)
 
 No manual library installation needed — `install_dependencies.py` handles it automatically.
 
@@ -60,7 +60,7 @@ project/
 |-- main.py                      <- Run this. Does everything.
 |-- config.py                    <- All settings. Edit this only.
 |-- install_dependencies.py      <- Installs all Python libraries
-|-- download_weather_data.py     <- Downloads NASA POWER data
+|-- download_country_weather_data.py     <- Downloads NASA POWER data
 |-- run_all_scripts.py           <- Runs steps 1-6 in sequence
 |-- README.md                    <- This file
 |
@@ -69,10 +69,10 @@ project/
 |   |-- step2_pso_feature_selection.py <- PSO selects best features
 |   |-- step3_pso_hp_tuning_train.py <- PSO tunes RF, trains models
 |   |-- step4_evaluation.py          <- MAE, RMSE, R2, ARIMA comparison
-|   |-- step5_nigeria_forecast.py    <- Per-state RF forecast
+|   |-- step5_country_forecast.py    <- Per-state RF forecast
 |   `-- step6_future_forecast.py     <- 14-day forecast + hourly
 |
-|-- nigeria_weather_data/        <- Created by download script
+|-- country_weather_data/        <- Created by download script
 |   |-- all_states_combined.csv
 |   |-- training_2000_2022.csv
 |   |-- testing_2023_2026.csv
@@ -128,7 +128,7 @@ STATES = [
 1. Update `COUNTRY_NAME` in `config.py`
 2. Update `DATA_FOLDER_NAME` in `config.py`
 3. Replace the `STATES` list with your country's regions and coordinates
-4. Delete the old `nigeria_weather_data/` folder
+4. Delete the old `country_weather_data/` folder
 5. Run `python main.py` — data downloads automatically
 
 ---
@@ -141,7 +141,7 @@ STATES = [
 | 2 | `step2_pso_feature_selection.py` | fig6–fig7, table5 |
 | 3 | `step3_pso_hp_tuning_train.py` | fig8, table6, trained models (.pkl) |
 | 4 | `step4_evaluation.py` | fig9–fig15, table7–table9, all_predictions.csv |
-| 5 | `step5_nigeria_forecast.py` | fig16–fig20, table10 |
+| 5 | `step5_country_forecast.py` | fig16–fig20, table10 |
 | 6 | `step6_future_forecast.py` | fig21–fig24, table11 |
 
 ---
@@ -167,9 +167,9 @@ STATES = [
 | fig15 | Seasonal performance comparison |
 | fig16 | Feature importance (Gini) |
 | fig17 | Next-day precipitation forecast by state |
-| fig18 | R2 score per Nigerian state |
-| fig19 | Nigeria forecast map (geographic scatter) |
-| fig20 | MAE per Nigerian state |
+| fig18 | R2 score per state |
+| fig19 | Country(Nigeria) forecast map (geographic scatter) |
+| fig20 | MAE per state |
 | fig21 | Tomorrow's forecast |
 | fig22 | 7-day forecast (this week) |
 | fig23 | 7-day forecast (next week, days 8–14) |
@@ -221,7 +221,7 @@ All installed automatically by `install_dependencies.py`:
 - API: Temporal Daily Point
 - Model: MERRA-2 (Modern-Era Retrospective Analysis)
 - Period: 2000–2025
-- Coverage: All 36 Nigerian states + FCT (37 locations)
+- Coverage: All States
 
 Variables downloaded per location:
 - Temperature (mean, min, max) at 2m
@@ -237,7 +237,7 @@ Variables downloaded per location:
 
 ## Methodology Summary
 
-1. **Data Collection** — NASA POWER API, daily data, 37 Nigerian states
+1. **Data Collection** — NASA POWER API, daily data, all states
 2. **Preprocessing** — Missing value imputation (column mean), lag-1 features
 3. **PSO Feature Selection** — GlobalBestPSO selects best subset of 20 candidate features
 4. **PSO Hyperparameter Tuning** — PSO optimises `n_estimators` and `max_depth` for Random Forest
@@ -262,7 +262,7 @@ figures/
 tables/
 results/
 models/
-nigeria_weather_data/
+country_weather_data/
 __pycache__/
 *.pyc
 *.pkl

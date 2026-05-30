@@ -37,7 +37,7 @@ print("=" * 60)
 
 # -- States loaded from config.py (change states there, not here)
 # Format in config: (state_key, state_name, capital_city, lat, lon)
-NIGERIA_STATES = [(s[1], s[2], s[3], s[4]) for s in STATES]
+COUNTRY_STATES = [(s[1], s[2], s[3], s[4]) for s in STATES]
 
 # -- Load trained model and data --------------------------------
 rf_pso     = joblib.load(os.path.join(MODEL_DIR, "rf_pso_model.pkl"))
@@ -53,10 +53,10 @@ today_str  = today.strftime("%A, %d %B %Y")
 
 # -- Filter states based on mode --------------------------------
 if FORECAST_MODE == "single":
-    states_to_run = [(s, c, la, lo) for s, c, la, lo in NIGERIA_STATES
+    states_to_run = [(s, c, la, lo) for s, c, la, lo in COUNTRY_STATES
                      if s == SINGLE_STATE]
 else:
-    states_to_run = NIGERIA_STATES
+    states_to_run = COUNTRY_STATES
 
 # -- Helper: build state dataset --------------------------------
 def build_state(state_name, df_raw):
@@ -108,7 +108,7 @@ def recursive_forecast(rf, scaler, df_s, all_f, feats, n_days=14):
 
     return np.array(preds)
 
-# -- Nigeria hourly rainfall distribution pattern ---------------
+# -- COUNTRY hourly rainfall distribution pattern ---------------
 # Based on West Africa climatology: rain peaks in afternoon/evening
 # Proportions across 24 hours (sum = 1.0)
 HOURLY_PATTERN = np.array([
@@ -281,7 +281,7 @@ else:
     cbar = plt.colorbar(im, ax=ax, shrink=0.6)
     cbar.set_label("Precipitation (mm/day)", fontsize=9)
     ax.set_title(
-        f"Figure 22 - 7-Day Forecast Heatmap: All Nigerian States\n"
+        f"Figure 22 - 7-Day Forecast Heatmap: All Country States\n"
         f"Week of {(today + timedelta(days=1)).strftime('%d %B')} - "
         f"{(today + timedelta(days=7)).strftime('%d %B %Y')}",
         fontsize=13, fontweight="bold")
@@ -341,7 +341,7 @@ else:
     cbar = plt.colorbar(im, ax=ax, shrink=0.6)
     cbar.set_label("Precipitation (mm/day)", fontsize=9)
     ax.set_title(
-        f"Figure 23 - Same Time Next Week Forecast: All Nigerian States\n"
+        f"Figure 23 - Same Time Next Week Forecast: All Country States\n"
         f"Week of {(today + timedelta(days=8)).strftime('%d %B')} - "
         f"{(today + timedelta(days=14)).strftime('%d %B %Y')}",
         fontsize=13, fontweight="bold")

@@ -1,6 +1,6 @@
 # =============================================================
 # config.py  -  PROJECT CONFIGURATION
-# Kwara State University, Malete
+# Kwara State University, Nigeria
 # Faculty of ICT - Department of Computer Science
 #
 # THIS IS THE ONLY FILE YOU NEED TO EDIT.
@@ -13,7 +13,7 @@ import os
 # SECTION 1: PATHS  (do not change)
 # ==============================================================
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR    = os.path.join(BASE_DIR, "nigeria_weather_data")
+DATA_DIR    = os.path.join(BASE_DIR, "country_weather_data")
 FIG_DIR     = os.path.join(BASE_DIR, "figures")
 TABLE_DIR   = os.path.join(BASE_DIR, "tables")
 RESULT_DIR  = os.path.join(BASE_DIR, "results")
@@ -30,7 +30,7 @@ COUNTRY_NAME = "Nigeria"
 
 # Folder where downloaded weather data is saved
 # If you change country, update this path to match your downloader output
-DATA_FOLDER_NAME = "nigeria_weather_data"
+DATA_FOLDER_NAME = "country_weather_data"
 DATA_DIR         = os.path.join(BASE_DIR, DATA_FOLDER_NAME)
 
 # Dataset file the project reads from

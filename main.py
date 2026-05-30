@@ -1,6 +1,6 @@
 # =============================================================
 # main.py  -  Project Launcher
-# Kwara State University, Malete
+# Kwara State University, Nigeria
 # Faculty of ICT - Department of Computer Science
 #
 # HOW TO RUN:
@@ -8,7 +8,7 @@
 #
 # This script will:
 #   1. Install all required Python dependencies
-#   2. Download Nigeria weather data (skips if already exists)
+#   2. Download Country weather data (skips if already exists)
 #   3. Run the full project pipeline (steps 1-6)
 # =============================================================
 
@@ -26,7 +26,7 @@ DATASET  = cfg.DATASET_FILE
 # -- Scripts to run in order -----------------------------------
 SCRIPTS = [
     ("install_dependencies.py",  "Installing Dependencies"),
-    ("download_weather_data.py", "Downloading Weather Data"),
+    ("download_country_weather_data.py", "Downloading Weather Data"),
     ("run_all_scripts.py",       "Running Full Project Pipeline"),
 ]
 
@@ -34,7 +34,7 @@ for script, label in SCRIPTS:
     path = os.path.join(BASE_DIR, script)
 
     # Skip download if dataset already exists
-    if script == "download_weather_data.py" and os.path.exists(DATASET):
+    if script == "download_country_weather_data.py" and os.path.exists(DATASET):
         print(f"\n{'='*65}")
         print(f"  [SKIP] Dataset already exists. Skipping download.")
         print(f"{'='*65}\n")

@@ -7,7 +7,7 @@ import subprocess, sys
 
 print("\n" + "="*65)
 print("  PROJECT DEPENDENCY INSTALLER")
-print("  Kwara State University, Malete")
+print("  Kwara State University, Nigeria")
 print("  Faculty of ICT - Department of Computer Science")
 print("="*65 + "\n")
 
