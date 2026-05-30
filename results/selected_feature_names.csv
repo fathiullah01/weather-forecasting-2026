@@ -1,0 +1,9 @@
+KWARA_humidity
+KWARA_wind_speed
+KWARA_global_radiation
+KWARA_temp_mean_lag1
+KWARA_temp_max_lag1
+KWARA_humidity_lag1
+KWARA_wind_gust_lag1
+KWARA_pressure_lag1
+KWARA_global_radiation_lag1
