@@ -275,7 +275,7 @@ __pycache__/
 
 If you use this project in your research, please cite:
 
-> Kwara State University, Malete. *Weather Forecasting Using PSO Feature Selection and Random Forest*. Faculty of ICT, Department of Computer Science.
+> Kwara State University, Nigeria. *Weather Forecasting Using PSO Feature Selection and Random Forest*. Faculty of ICT, Department of Computer Science.
 
 ---
 
