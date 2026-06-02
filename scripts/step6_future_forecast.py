@@ -1,3 +1,4 @@
+
 # =============================================================
 # STEP 6: FUTURE WEATHER FORECAST FIGURES
 # Generates 4 forecast figures:
