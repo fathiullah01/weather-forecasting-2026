@@ -48,8 +48,22 @@ state_code = open(os.path.join(RESULT_DIR, "state_code.txt")).read().strip()
 df_raw     = pd.read_csv(DATASET_FILE, index_col=0, parse_dates=True)
 df_raw     = df_raw.sort_index()
 
-today      = datetime.today()
-today_str  = today.strftime("%A, %d %B %Y")
+# -- Resolve forecast start date from config -------------------
+# FORECAST_DATE_MODE = "auto"   -> uses last date in dataset
+# FORECAST_DATE_MODE = "manual" -> uses FORECAST_DATE from config
+if FORECAST_DATE_MODE == "manual":
+    today = datetime.strptime(FORECAST_DATE, "%Y-%m-%d")
+    print(f"\n[CONFIG] FORECAST_DATE_MODE=manual -> using {today.date()}")
+else:
+    last_date = df_raw.index.max()
+    if hasattr(last_date, "to_pydatetime"):
+        today = last_date.to_pydatetime()
+    else:
+        today = datetime.combine(last_date, datetime.min.time())
+    print(f"\n[CONFIG] FORECAST_DATE_MODE=auto -> last data date: {today.date()}")
+
+today_str = today.strftime("%A, %d %B %Y")
+print(f"[CONFIG] Forecast reference date : {today_str}")
 
 # -- Filter states based on mode --------------------------------
 if FORECAST_MODE == "single":

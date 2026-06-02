@@ -1,4 +1,3 @@
-
 # =============================================================
 # run_all_scripts.py  -  Master Runner
 # Kwara State University, Nigeria
@@ -8,7 +7,9 @@
 #   python run_all_scripts.py
 # =============================================================
 
-import subprocess, sys, os, time, shutil
+import subprocess, sys, os, time, shutil, warnings
+warnings.filterwarnings("ignore")
+os.environ["PYTHONWARNINGS"] = "ignore"
 
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
 SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
