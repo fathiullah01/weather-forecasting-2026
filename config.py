@@ -6,9 +6,9 @@
 # THIS IS THE ONLY FILE YOU NEED TO EDIT.
 # All scripts read every variable from here automatically.
 # =============================================================
-
+ 
 import os
-
+ 
 # ==============================================================
 # SECTION 1: PATHS  (do not change)
 # ==============================================================
@@ -19,24 +19,24 @@ TABLE_DIR   = os.path.join(BASE_DIR, "tables")
 RESULT_DIR  = os.path.join(BASE_DIR, "results")
 MODEL_DIR   = os.path.join(BASE_DIR, "models")
 SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
-
+ 
 # ==============================================================
 # SECTION 2: COUNTRY SETTINGS
 # Change these when switching to a different country.
 # ==============================================================
-
+ 
 # Name of the country (used in figure titles and print output)
 COUNTRY_NAME = "Nigeria"
-
+ 
 # Folder where downloaded weather data is saved
 # If you change country, update this path to match your downloader output
 DATA_FOLDER_NAME = "country_weather_data"
 DATA_DIR         = os.path.join(BASE_DIR, DATA_FOLDER_NAME)
-
+ 
 # Dataset file the project reads from
 # Change to "training_2000_2022.csv" if you want training set only
 DATASET_FILE = os.path.join(DATA_DIR, "all_states_combined.csv")
-
+ 
 # NASA POWER API parameters to download
 # Keys = NASA parameter codes, Values = column names used in project
 # Do not change values (column names) unless you update FEATURE_NAMES too
@@ -53,7 +53,7 @@ NASA_PARAMETERS = {
     "ALLSKY_SFC_SW_DWN" : "global_radiation", # Solar radiation (MJ/m2/day)
     "ALLSKY_SFC_PAR_TOT": "sunshine",      # Photosynthetically active radiation
 }
-
+ 
 # ==============================================================
 # SECTION 3: STATES / REGIONS
 # Format: (state_key, state_name, capital_city, latitude, longitude)
@@ -109,32 +109,41 @@ STATES = [
     ("yobe",          "Yobe",        "Damaturu",      11.7471,  11.9608),
     ("zamfara",       "Zamfara",     "Gusau",         12.1704,   6.6649),
 ]
-
+ 
 # Convenience lookups built from STATES (do not change)
 STATE_NAMES    = [s[1] for s in STATES]
 STATE_KEYS     = [s[0] for s in STATES]
 STATE_CAPITALS = {s[1]: s[2] for s in STATES}
 STATE_COORDS   = {s[1]: (s[3], s[4]) for s in STATES}
-
+ 
 # ==============================================================
 # SECTION 4: FORECAST SETTINGS
 # ==============================================================
-
+ 
 # Forecast mode:
 #   "all"    -> run and show forecasts for all states in STATES
 #   "single" -> run for one state only (set SINGLE_STATE below)
 FORECAST_MODE = "all"
-
+ 
+# Forecast date mode (used by step6_future_forecast.py):
+#   "auto"   -> automatically uses the last date available in the dataset
+#   "manual" -> uses the exact date you specify in FORECAST_DATE below
+FORECAST_DATE_MODE = "auto"
+ 
+# Used only when FORECAST_DATE_MODE = "manual"
+# Must be a date that exists in your dataset. Format: YYYY-MM-DD
+FORECAST_DATE = "2024-08-01"
+ 
 # Used only when FORECAST_MODE = "single"
 # Must exactly match a state_name in STATES above
 SINGLE_STATE = "Kwara"
 SINGLE_CITY  = "Ilorin"   # label used in chart titles
-
+ 
 # Primary state used to train the main PSO-RF model
 # Other states are forecasted using the same tuned hyperparameters
 # Change to whichever state is most relevant to your study
 PRIMARY_STATE = "Kwara"
-
+ 
 # ==============================================================
 # SECTION 5: DATE SETTINGS
 # ==============================================================
@@ -142,15 +151,15 @@ DOWNLOAD_START_YEAR = 2000   # first year to download
 DOWNLOAD_END_YEAR   = 2026   # tries this year, falls back to previous if unavailable
 TRAIN_YEARS_END     = 2022   # training:  START -> this year  (23 years)
 TEST_YEARS_START    = 2023   # testing:   this year -> latest (3 years)
-
+ 
 # ==============================================================
 # SECTION 6: MODEL SETTINGS
 # ==============================================================
-
+ 
 # What the model predicts (next-day value)
 # Options: "precipitation", "temp_mean", "temp_max"
 TARGET_VARIABLE = "precipitation"
-
+ 
 # Input features (must match NASA_PARAMETERS values above)
 FEATURE_NAMES = [
     "temp_mean",
@@ -164,38 +173,38 @@ FEATURE_NAMES = [
     "global_radiation",
     "sunshine",
 ]
-
+ 
 # PSO - Feature Selection
 PSO_N_PARTICLES_FS  = 10   # number of particles
 PSO_N_ITERATIONS_FS = 15   # number of iterations
-
+ 
 # PSO - Hyperparameter Tuning
 PSO_N_PARTICLES_HP  = 10   # number of particles
 PSO_N_ITERATIONS_HP = 20   # number of iterations
-
+ 
 # PSO - Shared coefficients
 PSO_C1 = 0.5   # cognitive coefficient
 PSO_C2 = 0.3   # social coefficient
 PSO_W  = 0.9   # inertia weight
-
+ 
 # Random Forest fallback (used if PSO fails or times out)
 RF_FALLBACK_N_ESTIMATORS = 100
 RF_FALLBACK_MAX_DEPTH    = 8
-
+ 
 # ==============================================================
 # SECTION 7: THRESHOLD & OUTPUT SETTINGS
 # ==============================================================
-
+ 
 # Precipitation threshold for "Rain Likely" classification (mm/day)
 RAIN_THRESHOLD_MM = 1.0
-
+ 
 # Figure output settings
 FIG_DPI    = 150
 FIG_FORMAT = "png"
-
+ 
 # Folders wiped and recreated on every run of run_all_scripts.py
 CLEAN_DIRS = ["figures", "tables", "results", "models"]
-
+ 
 # ==============================================================
 # SECTION 8: LITERATURE COMPARISON TABLE
 # Add or edit entries to update table8_literature_comparison.csv
